@@ -577,7 +577,7 @@ namespace SongRequestManager
         {
             var favouritesBadge = _tableCell.GetField<Image, LevelListTableCell>("_favoritesBadgeImage");
             favouritesBadge.enabled = false;
-
+            
             var highlight = (request.requestInfo.Length > 0) && (request.requestInfo[0] == '!');
 
             var msg = highlight ? "MSG" : "";
@@ -634,6 +634,26 @@ namespace SongRequestManager
                 var level = CustomLevelForRow(row);
                 if (level != null)
                 {
+                    
+                    _tableCell.SetDataFromLevelAsync(level,false,false,false);
+                    var promo = _tableCell.GetField<GameObject,LevelListTableCell>("_promoBadgeGo");
+                    promo.SetActive(request.requestor.IsSubscriber||request.requestor.IsVip||request.requestor.IsModerator||request.requestor.IsBroadcaster);
+                    //promo.GetComponentsInChildren<Image>().Any(c => { Plugin.Log(c.name); return true;});
+                    var promoBadge = promo.GetComponentsInChildren<Image>().LastOrDefault(c => string.Equals(c.name, "PromoBadge", StringComparison.OrdinalIgnoreCase));
+                    var promoText = promo.GetComponentsInChildren<TextMeshProUGUI>().LastOrDefault(c => string.Equals(c.name, "PromoText", StringComparison.OrdinalIgnoreCase));
+                    if (promoText != null)
+                    { 
+                        if(request.requestor.IsSubscriber)
+                            promoText.text = "SUB";
+                        if(request.requestor.IsVip)
+                            promoText.text = "VIP";
+                        if(request.requestor.IsModerator)
+                            promoText.text = "MOD";
+                        if(request.requestor.IsBroadcaster)
+                            promoText.text = "ME";
+
+                            promoBadge.color = request.requestor.IsBroadcaster ? Color.red : request.requestor.IsModerator ? Color.green : request.requestor.IsVip ? Color.magenta : request.requestor.IsSubscriber ? Color.blue : Color.white;
+                    }
                     // set image from song's cover image
                     var sprite = await level.GetCoverImageAsync(System.Threading.CancellationToken.None);
                     image.sprite = sprite;

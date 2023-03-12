@@ -83,7 +83,7 @@ namespace SongRequestManager
 
             SongBrowserPluginPresent = IPA.Loader.PluginManager.GetPlugin("Song Browser") != null;
             ChatCorePluginPresent = IPA.Loader.PluginManager.GetPlugin("ChatCore") != null;
-
+            Plugin.Log("catcore?" + (IPA.Loader.PluginManager.GetPlugin("CatCore") != null));
             // setup handle for fresh menu scene changes
             BS_Utils.Utilities.BSEvents.OnLoad();
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += OnLateMenuSceneLoadedFresh;

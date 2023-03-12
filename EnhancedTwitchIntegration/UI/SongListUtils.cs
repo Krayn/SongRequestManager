@@ -18,7 +18,7 @@ namespace SongRequestManager
         {
             _levelCollectionViewController = Resources.FindObjectsOfTypeAll<LevelCollectionViewController>().FirstOrDefault();
             
-            _pre120 = IPA.Utilities.UnityGame.GameVersion.SemverValue.Minor < 20;
+            //_pre120 = IPA.Utilities.UnityGame.GameVersion.SemverValue.Minor < 20;
             if (!_initialized)
             {
                 try

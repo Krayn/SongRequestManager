@@ -141,10 +141,11 @@ namespace SongRequestManager
             {
                 _flowCoordinator = BeatSaberMarkupLanguage.BeatSaberUI.CreateFlowCoordinator<RequestFlowCoordinator>();
             }
+            
+            ChatHandler.instance.Init();
 
             SongListUtils.Initialize();
 
-            ChatHandler.instance.Init();
 
             WriteQueueSummaryToFile();
             WriteQueueStatusToFile(QueueMessage(RequestBotConfig.Instance.RequestQueueOpen));
