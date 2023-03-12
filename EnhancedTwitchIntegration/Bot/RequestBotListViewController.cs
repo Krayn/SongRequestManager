@@ -636,13 +636,21 @@ namespace SongRequestManager
                 {
                     
                     _tableCell.SetDataFromLevelAsync(level,false,false,false);
+                    
+                    var promoBack = _tableCell.GetField<GameObject,LevelListTableCell>("_promoBackgroundGo");
                     var promo = _tableCell.GetField<GameObject,LevelListTableCell>("_promoBadgeGo");
+                    var updated = _tableCell.GetField<GameObject,LevelListTableCell>("_updatedBadgeGo");
+                    if (updated != null)
+                    { 
+                        updated.SetActive(false);
+                    }
                     promo.SetActive(request.requestor.IsSubscriber||request.requestor.IsVip||request.requestor.IsModerator||request.requestor.IsBroadcaster);
                     //promo.GetComponentsInChildren<Image>().Any(c => { Plugin.Log(c.name); return true;});
                     var promoBadge = promo.GetComponentsInChildren<Image>().LastOrDefault(c => string.Equals(c.name, "PromoBadge", StringComparison.OrdinalIgnoreCase));
                     var promoText = promo.GetComponentsInChildren<TextMeshProUGUI>().LastOrDefault(c => string.Equals(c.name, "PromoText", StringComparison.OrdinalIgnoreCase));
                     if (promoText != null)
-                    { 
+                    {   
+                        promoBack.SetActive(false);
                         if(request.requestor.IsSubscriber)
                             promoText.text = "SUB";
                         if(request.requestor.IsVip)
@@ -658,6 +666,35 @@ namespace SongRequestManager
                     var sprite = await level.GetCoverImageAsync(System.Threading.CancellationToken.None);
                     image.sprite = sprite;
                     imageSet = true;
+                }
+                else {
+                    
+                    
+                    var promoBack = _tableCell.GetField<GameObject,LevelListTableCell>("_promoBackgroundGo");
+                    var promo = _tableCell.GetField<GameObject,LevelListTableCell>("_promoBadgeGo");
+                    var updated = _tableCell.GetField<GameObject,LevelListTableCell>("_updatedBadgeGo");
+                    if (updated != null)
+                    { 
+                        updated.SetActive(false);
+                    }
+                    promo.SetActive(request.requestor.IsSubscriber||request.requestor.IsVip||request.requestor.IsModerator||request.requestor.IsBroadcaster);
+                    //promo.GetComponentsInChildren<Image>().Any(c => { Plugin.Log(c.name); return true;});
+                    var promoBadge = promo.GetComponentsInChildren<Image>().LastOrDefault(c => string.Equals(c.name, "PromoBadge", StringComparison.OrdinalIgnoreCase));
+                    var promoText = promo.GetComponentsInChildren<TextMeshProUGUI>().LastOrDefault(c => string.Equals(c.name, "PromoText", StringComparison.OrdinalIgnoreCase));
+                    if (promoText != null)
+                    {   
+                        promoBack.SetActive(false);
+                        if(request.requestor.IsSubscriber)
+                            promoText.text = "SUB";
+                        if(request.requestor.IsVip)
+                            promoText.text = "VIP";
+                        if(request.requestor.IsModerator)
+                            promoText.text = "MOD";
+                        if(request.requestor.IsBroadcaster)
+                            promoText.text = "ME";
+
+                            promoBadge.color = request.requestor.IsBroadcaster ? Color.red : request.requestor.IsModerator ? Color.green : request.requestor.IsVip ? Color.magenta : request.requestor.IsSubscriber ? Color.blue : Color.white;
+                    }
                 }
             }
 
