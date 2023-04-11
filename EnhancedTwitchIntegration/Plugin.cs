@@ -37,6 +37,9 @@ namespace SongRequestManager
         public static bool SongBrowserPluginPresent;
         public static bool ChatCorePluginPresent;
 
+        public static bool _pre1_29;
+        public static bool _pre1_28;
+
         [Init]
         public void Init(IPALogger log)
         {
@@ -83,7 +86,10 @@ namespace SongRequestManager
 
             SongBrowserPluginPresent = IPA.Loader.PluginManager.GetPlugin("Song Browser") != null;
             ChatCorePluginPresent = IPA.Loader.PluginManager.GetPlugin("ChatCore") != null;
+            _pre1_29 = IPA.Utilities.UnityGame.GameVersion < new IPA.Utilities.AlmostVersion("1.29.0");
+            _pre1_28 = IPA.Utilities.UnityGame.GameVersion < new IPA.Utilities.AlmostVersion("1.28.0");
             Plugin.Log("catcore?" + (IPA.Loader.PluginManager.GetPlugin("CatCore") != null));
+
             // setup handle for fresh menu scene changes
             BS_Utils.Utilities.BSEvents.OnLoad();
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += OnLateMenuSceneLoadedFresh;
